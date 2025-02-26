@@ -100,8 +100,8 @@
 
         <!-- Seçimler (Ortada) -->
         <div class="selection-container">
-            <p>Reklam Kaşesi Hesaplama modülüne hoş geldiniz. Lütfen seçimlerinizi yapınız.</p>
-            
+            <p>Reklam Kaşesi Hesaplama Modülüne Hoş Geldiniz. Lütfen Seçimlerinizi Yapınız.</p>
+
     <!-- Özet ve Sonuç (En üstte) -->
     <div id="summaryBox">
         <h3>Hesaplama Özeti</h3>
@@ -317,6 +317,19 @@
                     document.getElementById("versiyonEkleButton").disabled = true;
                     document.getElementById("kopyalaButton").classList.remove("hidden");
                     document.getElementById("summaryBox").scrollIntoView({ behavior: "smooth" });
+
+                    // Son versiyon eklendiğinde seçilmemiş mecraları devre dışı bırak
+                    const allVersiyonMecralari = new Set();
+                    versiyonlar.forEach(versiyon => {
+                        versiyon.mecra.forEach(mecra => allVersiyonMecralari.add(mecra));
+                    });
+
+                    document.querySelectorAll("#versiyonMecraOptions .mecra-button").forEach(button => {
+                        const value = button.getAttribute("data-value");
+                        if (!allVersiyonMecralari.has(value)) {
+                            button.disabled = true; // Seçilmemiş mecraları devre dışı bırak
+                        }
+                    });
                 }
             } else {
                 alert("Lütfen en az bir mecra seçin.");
