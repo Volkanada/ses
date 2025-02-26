@@ -83,7 +83,7 @@
         padding: 5px;
         font-weight: bold;
     }
-    .ana-film-summary { color: #1a73e8; font-weight: bold; }
+    .ana-film-summary { color: #1a73e8; }
     .versiyon-summary { color: #64b5f6; }
     .genel-bilgiler {
         margin-top: 20px;
@@ -169,7 +169,7 @@
         <p>60 saniye (1 dakika)’yı geçen reklam filmleri 2 kaşe olarak değerlendirilir. Santral, IVR (Interactive Voice Response), Yapay Zeka / Akıllı Asistan, Tanıtım Filmi, Advertorial, Infomercial, Otobüs, Uçak, Metro, ATM, vb. mecralar için yapılacak seslendirme çalışmalarında işin mahiyetine, uzunluğuna ve kullanım alanına ve kullanım süresine göre fiyatlandırma yapılmaktadır.</p>
         <br><br>
         <p><strong>SUNDU & SUNAR:</strong></p>
-        <p>Program giriş-çıkışlarında kullanılan “Sundu-Sunar”, “Separatör”, “Jenerik” ve “Katkılarıyla” olarak adlandırılan spotlar her program/kanal özelinde 2 kaşe (%200) üzerinden hesaplanır. Reklamın yayınlanmasından sonra ayrıca separatör, jenerik, vs. olarak kullanılıyorsa ayrıca tam kaşe (%100) olarak fatura edilir. “Sundu-Sunar” spotlarına eklenecek “Devam Ediyor, Devam Edecek” spotlarının her biri için yarım kaşe (%50), toplam 1 kaşe (%100) daha ayrıca hesaplanır.</p>
+        <p>Program giriş-çıkışlarında kullanılan “Sundu-Sunar”, “Separatör”, “Jenerik” ve “Katkılarıyla” olarak adlandırılan spotlar her program/kanal özelinde 2 kaşe (%200) üzerinden hesaplanır. Reklamın yayınlanmasından sonra ayrıca separatör, jenerik, vs. olarak kullanılıyorsa ayrıca tam kaşe (%100) olarak fatura edilir. “Sundu-Sunar” spotlarına eklenecek “Devam Ediyor, Devam Edecek” spotlarının her biri için yarım kaşe (%50), toplam 1 kaşe (%100) daha ayrıca hesaplanır。</p>
     </div>
 
     <script>
@@ -178,6 +178,7 @@
         let versiyonSayisi = 0;
         let currentVersiyonIndex = 0;
         let hasAllTvDijitalSm = false;
+        let hasAllIndoorOutdoorMetaverse = false;
 
         // Mecra seçimlerini yönet (Ana Film için)
         document.querySelectorAll("#anaFilmMecraOptions .mecra-button").forEach(button => {
@@ -200,11 +201,15 @@
                     anaFilmMecralari = ["Tüm Mecralar"];
                 }
 
-                // TV, Dijital ve SM'nin hepsinin seçilip seçilmediğini kontrol et
                 hasAllTvDijitalSm = anaFilmMecralari.includes("tv") && 
                                    anaFilmMecralari.includes("dijital") && 
                                    anaFilmMecralari.includes("sm") || 
                                    anaFilmMecralari.includes("Tüm Mecralar");
+
+                hasAllIndoorOutdoorMetaverse = anaFilmMecralari.includes("indoor") && 
+                                              anaFilmMecralari.includes("outdoor") && 
+                                              anaFilmMecralari.includes("metaverse") || 
+                                              anaFilmMecralari.includes("Tüm Mecralar");
 
                 document.getElementById("versiyonSection").classList.remove("hidden");
                 document.getElementById("geriButton").classList.remove("hidden");
@@ -263,20 +268,24 @@
                         if (!button.disabled) {
                             const value = button.getAttribute("data-value");
 
-                            // Eğer TV, Dijital ve SM'nin hepsi seçilmemişse
                             if (!hasAllTvDijitalSm) {
-                                // Ana filmde seçilmeyen bir TV, Dijital veya SM seçilmeye çalışılırsa
                                 if (["tv", "dijital", "sm"].includes(value) && !anaFilmMecralari.includes(value) && !anaFilmMecralari.includes("Tüm Mecralar")) {
                                     alert("Versiyonlarda ana filmde seçilmeyen TV, Dijital veya SM mecraları seçilemez. Bu mecraları seçmek için ana filmde seçim yapmalısınız.");
                                     resetAll();
                                     return;
                                 }
-                            }
-                            // Eğer hepsi seçilmemişse ve TV, Dijital, SM'den biri seçilmeye çalışılırsa
-                            else if (["tv", "dijital", "sm"].includes(value) && !hasAllTvDijitalSm) {
+                            } else if (["tv", "dijital", "sm"].includes(value) && !hasAllTvDijitalSm) {
                                 alert("TV, Dijital ve SM Mecraları İlk yayına dahil olacağından, bu mecraları öncelikle Ana Film için seçmeniz gerekmektedir.");
                                 resetAll();
                                 return;
+                            }
+
+                            if (!hasAllIndoorOutdoorMetaverse) {
+                                if (["indoor", "outdoor", "metaverse"].includes(value) && !anaFilmMecralari.includes(value) && !anaFilmMecralari.includes("Tüm Mecralar")) {
+                                    alert("Versiyonlarda ana filmde seçilmeyen Indoor, Outdoor veya Metaverse mecraları seçilemez. Bu mecraları seçmek için ana filmde seçim yapmalısınız.");
+                                    resetAll();
+                                    return;
+                                }
                             }
 
                             button.classList.toggle("selected");
@@ -318,7 +327,6 @@
                     document.getElementById("kopyalaButton").classList.remove("hidden");
                     document.getElementById("summaryBox").scrollIntoView({ behavior: "smooth" });
 
-                    // Son versiyon eklendiğinde seçilmemiş mecraları devre dışı bırak
                     const allVersiyonMecralari = new Set();
                     versiyonlar.forEach(versiyon => {
                         versiyon.mecra.forEach(mecra => allVersiyonMecralari.add(mecra));
@@ -327,7 +335,7 @@
                     document.querySelectorAll("#versiyonMecraOptions .mecra-button").forEach(button => {
                         const value = button.getAttribute("data-value");
                         if (!allVersiyonMecralari.has(value)) {
-                            button.disabled = true; // Seçilmemiş mecraları devre dışı bırak
+                            button.disabled = true;
                         }
                     });
                 }
@@ -346,6 +354,7 @@
             } else if (anaFilmMecralari.length > 0) {
                 anaFilmMecralari = [];
                 hasAllTvDijitalSm = false;
+                hasAllIndoorOutdoorMetaverse = false;
                 document.getElementById("versiyonSection").classList.add("hidden");
                 document.getElementById("versiyonMecraSection").classList.add("hidden");
                 document.getElementById("anaFilmOnaylaButton").disabled = false;
@@ -365,6 +374,7 @@
             versiyonSayisi = 0;
             currentVersiyonIndex = 0;
             hasAllTvDijitalSm = false;
+            hasAllIndoorOutdoorMetaverse = false;
             document.getElementById("versiyonSection").classList.add("hidden");
             document.getElementById("versiyonMecraSection").classList.add("hidden");
             document.getElementById("geriButton").classList.add("hidden");
@@ -393,25 +403,57 @@
             });
         }
 
+        // Mecra kaşesini döndüren yardımcı fonksiyon
+        function getMecraKase(value) {
+            switch (value) {
+                case "tv":
+                case "dijital":
+                case "sm":
+                    return 1;
+                case "karasal_radyo":
+                case "dijital_radyo":
+                case "sinema":
+                    return anaFilmMecralari.some(m => ["tv", "dijital", "sm"].includes(m)) ? 0.5 : 1;
+                case "indoor":
+                case "outdoor":
+                case "metaverse":
+                    return 2;
+                default:
+                    return 0;
+            }
+        }
+
         // Özeti güncelle
         function updateSummary() {
             let anaFilmKaşe = calculateMecraKaşe(anaFilmMecralari);
             let versiyonKaşe = versiyonlar.reduce((sum, versiyon) => sum + versiyon.kaşe, 0);
             let toplamKaşe = anaFilmKaşe + versiyonKaşe;
 
+            const anaFilmMecralariFormatted = anaFilmMecralari.map(mecra => {
+                if (mecra === "Tüm Mecralar") return mecra;
+                const kase = getMecraKase(mecra);
+                return `${mecra} (${kase} kaşe)`;
+            }).join(", ");
+
+            const versiyonlarFormatted = versiyonlar.map((versiyon, index) => {
+                const mecralarFormatted = versiyon.mecra.map(mecra => {
+                    const kase = mecra === "indoor" || mecra === "outdoor" ? 1 : 0.5;
+                    return `${mecra} (${kase} kaşe)`;
+                }).join(", ");
+                return `- Versiyon ${index + 1}: ${mecralarFormatted} <strong>(Toplam: ${versiyon.kaşe} kaşe)</strong>`;
+            }).join("<br>");
+
             let summaryText = `
                 <div class="ana-film-summary">
-                    <strong>Ana Film:</strong><br>
-                    - Mecralar: ${anaFilmMecralari.join(", ")}<br>
-                    - Kaşe: ${anaFilmKaşe} kaşe<br><br>
+                    Ana Film:<br>
+                    - Mecralar: ${anaFilmMecralariFormatted}<br>
+                    - Ana Film için Toplam Kaşe: <strong>${anaFilmKaşe} kaşe</strong> <br><br>
                 </div>
                 <div class="versiyon-summary">
                     <strong>Versiyonlar:</strong><br>
-                    ${versiyonlar.map((versiyon, index) => `
-                        - Versiyon ${index + 1}: ${versiyon.mecra.join(", ")} (${versiyon.kaşe} kaşe)<br>
-                    `).join("")}
+                    ${versiyonlarFormatted || "Henüz versiyon eklenmedi."}<br>
                     <br>
-                    <strong>Toplam Versiyon Kaşe:</strong> ${versiyonKaşe} kaşe<br><br>
+                    <strong>Versiyonlar için Toplam Kaşe:</strong> ${versiyonKaşe} kaşe<br><br>
                 </div>
                 <strong class="toplam-kase">Toplam Kaşe: ${toplamKaşe} kaşe.</strong>
             `;
