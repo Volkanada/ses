@@ -1,220 +1,175 @@
-<!DOCTYPE html>
-<html lang="tr">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <style>
-        body {
-            font-family: Helvetica, sans-serif;
-            padding: 10px;
-            max-width: 1200px;
-            margin: auto;
-            display: flex;
-            gap: 10px;
-        }
-        h1, h3 { color: #333; }
-        label { display: block; margin: 10px 0; }
-        input { margin: 5px 0; width: 100%; padding: 8px; }
-        button {
-            padding: 8px 16px;
-            margin: 10px 0;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        button:hover { background-color: #45a049; }
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-        #resetButton, #geriButton { background-color: #f44336; }
-        #resetButton:hover, #geriButton:hover { background-color: #d32f2f; }
-        .section { margin-bottom: 20px; }
-        #summaryBox {
-            border: 2px solid #333;
-            padding: 20px;
-            background-color: #f9f9f9;
-            width: 400px;
-        }
-        .hidden { display: none; }
-        .mecra-option { margin: 5px 0; }
-        .checkbox-group { margin: 10px 0; }
-        .flex-container {
-            display: flex;
-            gap: 20px;
-            width: 100%;
-        }
-        .left-panel {
-            flex: 1;
-        }
-        .right-panel {
-            width: 400px;
-            margin-top: 20px;
-        }
-        .version-section { margin-top: 20px; }
-        .checkbox-group label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-        .checkbox-group input[type="checkbox"] {
-            margin: 0;
-            width: auto;
-        }
-        .ana-film-summary {
-            color: #1a73e8;
-            font-weight: bold;
-        }
-        /* Yeni Tasarım */
-        .mecra-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-        .mecra-button {
-            padding: 6px 12px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            font-size: 14px;
-        }
-        .mecra-button.selected {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .mecra-button:disabled {
-            background-color: #f0f0f0;
-            color: #ccc;
-            cursor: not-allowed;
-        }
-        /* Versiyon Sayısı Seçimi */
-        .versiyon-sayisi-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .versiyon-sayisi-container label {
-            margin: 0;
-            font-size: 14px;
-        }
-        .versiyon-sayisi-container input {
-            width: 60px;
-            padding: 6px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        /* Özet Kısmı */
-        .toplam-kase {
-            background-color: yellow;
-            padding: 5px;
-            font-weight: bold;
-        }
-        .versiyon-summary {
-            color: #64b5f6; /* Açık mavi renk */
-        }
-        /* Genel Bilgiler Bölgesi */
-        .genel-bilgiler {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .genel-bilgiler h4 {
-            margin-top: 0;
-            color: #333;
-        }
-        .genel-bilgiler p {
-            margin: 5px 0;
-            font-size: 14px;
-        }
-    </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title>Reklam Kaşesi Hesaplama</title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2487.7">
+  <style type="text/css">
+    body {
+        font-family: Helvetica, sans-serif;
+        padding: 10px;
+        max-width: 1200px;
+        margin: auto;
+    }
+    h1, h3 { color: #333; }
+    h5 { margin: 0; }
+    label { display: block; margin: 10px 0; }
+    input { margin: 5px 0; width: 100%; padding: 8px; }
+    button {
+        padding: 8px 16px;
+        margin: 10px 5px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    button:hover { background-color: #45a049; }
+    button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+    #resetButton, #geriButton, #versiyonYokButton { background-color: #2a76a7; }
+    #resetButton:hover, #geriButton:hover, #versiyonYokButton:hover { background-color: #d32f2f; }
+    .section { margin-bottom: 20px; }
+    #summaryBox {
+        border: 2px solid #333;
+        padding: 20px;
+        background-color: #f9f9f9;
+        margin-bottom: 20px;
+    }
+    .hidden { display: none; }
+    .mecra-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+    .mecra-button {
+        padding: 6px 12px;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 14px;
+    }
+    .mecra-button.selected {
+        background-color: #4CAF50;
+        color: white;
+    }
+    .mecra-button:disabled {
+        background-color: #f0f0f0;
+        color: #ccc;
+        cursor: not-allowed;
+    }
+    .versiyon-sayisi-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    .versiyon-sayisi-container input {
+        width: 60px;
+        padding: 6px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .toplam-kase {
+        background-color: yellow;
+        padding: 5px;
+        font-weight: bold;
+    }
+    .ana-film-summary { color: #1a73e8; font-weight: bold; }
+    .versiyon-summary { color: #64b5f6; }
+    .genel-bilgiler {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .genel-bilgiler h4 { margin-top: 0; color: #333; }
+    .genel-bilgiler p { margin: 5px 0; font-size: 14px; }
+  </style>
 </head>
 <body>
-    <div class="flex-container">
-        <div class="left-panel">
+
+        <!-- Seçimler (Ortada) -->
+        <div class="selection-container">
             <p>Reklam Kaşesi Hesaplama modülüne hoş geldiniz. Lütfen seçimlerinizi yapınız.</p>
+            
+    <!-- Özet ve Sonuç (En üstte) -->
+    <div id="summaryBox">
+        <h3>Hesaplama Özeti</h3>
+        <p id="summaryText">Henüz bir hesaplama yapılmadı.</p>
+        <button id="geriButton" class="hidden" onclick="geriAl()">Geri Al</button>
+        <button id="resetButton" class="hidden" onclick="resetAll()">Sıfırla</button>
+        <button id="kopyalaButton" class="hidden" onclick="kopyalaOzet()">Kopyala</button>
+    </div>
 
-            <div class="section">
-                <label><b>Ana Film için Mecra Seçimi</b></label>
-                <div class="mecra-container" id="anaFilmMecraOptions">
-                    <div class="mecra-button" data-value="tv">TV</div>
-                    <div class="mecra-button" data-value="dijital">Dijital</div>
-                    <div class="mecra-button" data-value="sm">Sosyal Medya</div>
-                    <div class="mecra-button" data-value="karasal_radyo">Karasal Radyo</div>
-                    <div class="mecra-button" data-value="dijital_radyo">Dijital Radyo</div>
-                    <div class="mecra-button" data-value="sinema">Sinema</div>
-                    <div class="mecra-button" data-value="indoor">Indoor</div>
-                    <div class="mecra-button" data-value="outdoor">Outdoor</div>
-                    <div class="mecra-button" data-value="metaverse">Metaverse</div>
-                </div>
-                <button id="anaFilmOnaylaButton" onclick="handleAnaFilmMecraSelection()">Ana Film Mecralarını Onayla</button>
-            </div>
 
-            <div id="versiyonSection" class="hidden">
-                <div class="versiyon-sayisi-container">
-                    <label>Versiyon Sayısı:</label>
-                    <input type="number" id="versiyonSayisi" min="1" max="200" value="1">
-                </div>
-                <button id="devamEtButton" onclick="showVersiyonMecraOptions()">Devam Et</button>
-            </div>
 
-            <div id="versiyonMecraSection" class="hidden">
-                <h5 id="versiyonBaslik"></h5>
-                <div class="mecra-container" id="versiyonMecraOptions"></div>
-                <button id="versiyonEkleButton" onclick="addVersiyon()">1. Versiyonu Ekle</button>
+        <div class="section">
+            <label><b>Ana Film için Mecra Seçimi</b></label>
+            <div class="mecra-container" id="anaFilmMecraOptions">
+                <div class="mecra-button" data-value="tv">TV</div>
+                <div class="mecra-button" data-value="dijital">Dijital</div>
+                <div class="mecra-button" data-value="sm">Sosyal Medya</div>
+                <div class="mecra-button" data-value="karasal_radyo">Karasal Radyo</div>
+                <div class="mecra-button" data-value="dijital_radyo">Dijital Radyo</div>
+                <div class="mecra-button" data-value="sinema">Sinema</div>
+                <div class="mecra-button" data-value="indoor">Indoor</div>
+                <div class="mecra-button" data-value="outdoor">Outdoor</div>
+                <div class="mecra-button" data-value="metaverse">Metaverse</div>
             </div>
+            <button id="anaFilmOnaylaButton" onclick="handleAnaFilmMecraSelection()">Ana Film Mecralarını Onayla</button>
         </div>
 
-        <div class="right-panel">
-            <div id="summaryBox">
-                <h3>Özet ve Sonuç</h3>
-                <p id="summaryText">Henüz bir hesaplama yapılmadı.</p>
-                <button id="geriButton" class="hidden" onclick="geriAl()">Geri Al</button>
-                <button id="resetButton" class="hidden" onclick="resetAll()">Sıfırla</button>
-                <button id="kopyalaButton" class="hidden" onclick="kopyalaOzet()">Kopyala</button>
+        <div id="versiyonSection" class="hidden">
+            <div class="versiyon-sayisi-container">
+                <label>Versiyon Sayısı:</label>
+                <input type="number" id="versiyonSayisi" min="1" max="200" value="1">
             </div>
-            <div class="genel-bilgiler">
-                <h4>Genel Bilgiler</h4>
-                <p><strong>VERSİYON NEDİR?:</strong></p>
-                <p>Aynı yayın yılı içersinde ürün ve marka sabit kalmak koşuluyla reklam filmine yeni planların eklenmesi, çıkarılması, aynı ürünün değişik çeşitlerinin
-gösterilmesi, filme yeni seslendirme ve yeni yazı planlarıyla ek yapılması, ana filmin
-süresi kısaltılarak yayınlanması, sanatçının gitmesine gerek kalmadan yapılan her türlü
-değişiklik ve ek mecra (radyo, sinema, internet, otobüs, uçak, konser, Açıkhava
-gösterimi, havaalanı, fuar, market, atm, led ekran, mobile, ve sair) yoluyla ticari kazanç
-elde etme amacına yönelik kullanımlar, versiyon olarak tanımlanır.</p>
-<br></br>
-
-                <p><strong>MECRALAR:</strong></p>
-                <p><strong>TV:</strong> Karasal TV yayını yapan tüm televizyon kanalları</p>
-                <p><strong>Dijital:</strong> YouTube, kendi web sitesindeki arşiv bölümü hariç tüm web sitesi kullanımları, Haber-Bülten siteleri, PayTV, VoD, e-Ticaret siteleri, Mobil Uygulamalar vb. dahil mecralar</p>
-                <p><strong>Sosyal Medya:</strong> Facebook, Instagram, Twitter, TikTok vb.</p>
-                <p><strong>Karasal Radyo:</strong> Karasal Yayın Yapan Radyo İstasyonları</p>
-                <p><strong>Dijital Radyo:</strong> Dijital Yayın Yapan Radyo İstasyonları</p>
-                <p><strong>Sinema:</strong> Sinema Salonları</p>
-                <p><strong>Indoor:</strong> Otobüs & Uçak İçi, Havaalanı, Market, Kapalı Fuar & Etkinlik Alanı vb. kapalı yerlerdeki kullanımlar</p>
-                <p><strong>Outdoor:</strong> ATM, Konser, Stadyum, Açık Hava Gösterimi, Açık Fuar Alanı vb. açık alandaki kullanımları ifade eder.</p>
-                <p><strong>Metaverse:</strong> Sanal Evrenleri Kapsar</p>
-<br></br>
-                <p><strong>KULLANIM SÜRESİ:</strong></p>
-                <p>Reklam filmleri için belirlenen ücret fatura tarihinden itibaren 1 yıl için geçerlidir. 1 yılın bitiminde reklamın yayınına devam edilmesi halinde yeni yayın yılındaki ücretiyle, yayınlananların işlerin kaşe hesapları %100 olarak yapılır.</p>
-<br></br>
-                <p><strong>REKLAM DIŞI İŞLER:</strong></p>
-                <p>60 saniye (1 dakika)’yı geçen reklam filmleri 2 kaşe olarak değerlendirilir. Santral, IVR (Interactive Voice Response), Yapay Zeka / Akıllı Asistan, Tanıtım Filmi, Advertorial, Infomercial, Otobüs, Uçak, Metro, ATM, vb. mecralar için yapılacak seslendirme çalışmalarında işin mahiyetine, uzunluğuna ve kullanım alanına ve kullanım süresine göre fiyatlandırma yapılmaktadır.</p>
-<br></br>
-                <p><strong>SUNDU & SUNAR:</strong></p>
-                <p>Program giriş-çıkışlarında kullanılan “Sundu-Sunar”, “Separatör”, “Jenerik” ve “Katkılarıyla” olarak adlandırılan spotlar her program/kanal özelinde 2 kaşe (%200) üzerinden hesaplanır. Reklamın yayınlanmasından sonra ayrıca separatör, jenerik, vs. olarak kullanılıyorsa ayrıca tam kaşe (%100) olarak fatura edilir. “Sundu-Sunar” spotlarına eklenecek “Devam Ediyor, Devam Edecek” spotlarının her biri için yarım kaşe (%50), toplam 1 kaşe (%100) daha ayrıca hesaplanır.</p>
-            </div>
+            <button id="devamEtButton" onclick="showVersiyonMecraOptions()">Devam Et</button>
+            <button id="versiyonYokButton" onclick="skipVersiyon()">Versiyon Yok</button>
         </div>
+
+        <div id="versiyonMecraSection" class="hidden">
+            <h5 id="versiyonBaslik"></h5>
+            <div class="mecra-container" id="versiyonMecraOptions"></div>
+            <button id="versiyonEkleButton" onclick="addVersiyon()">1. Versiyonu Ekle</button>
+        </div>
+    </div>
+
+    <!-- Genel Bilgiler (En altta) -->
+    <div class="genel-bilgiler">
+        <h4>Genel Bilgiler</h4>
+        <p><strong>VERSİYON NEDİR?:</strong></p>
+        <p>Aynı yayın yılı içersinde ürün ve marka sabit kalmak koşuluyla reklam filmine yeni planların eklenmesi, çıkarılması, aynı ürünün değişik çeşitlerinin gösterilmesi, filme yeni seslendirme ve yeni yazı planlarıyla ek yapılması, ana filmin süresi kısaltılarak yayınlanması, sanatçının gitmesine gerek kalmadan yapılan her türlü değişiklik ve ek mecra (radyo, sinema, internet, otobüs, uçak, konser, Açıkhava gösterimi, havaalanı, fuar, market, atm, led ekran, mobile, ve sair) yoluyla ticari kazanç elde etme amacına yönelik kullanımlar, versiyon olarak tanımlanır.</p>
+        <br><br>
+        <p><strong>MECRALAR:</strong></p>
+        <p><strong>TV:</strong> Karasal TV yayını yapan tüm televizyon kanalları</p>
+        <p><strong>Dijital:</strong> YouTube, kendi web sitesindeki arşiv bölümü hariç tüm web sitesi kullanımları, Haber-Bülten siteleri, PayTV, VoD, e-Ticaret siteleri, Mobil Uygulamalar vb. dahil mecralar</p>
+        <p><strong>Sosyal Medya:</strong> Facebook, Instagram, Twitter, TikTok vb.</p>
+        <p><strong>Karasal Radyo:</strong> Karasal Yayın Yapan Radyo İstasyonları</p>
+        <p><strong>Dijital Radyo:</strong> Dijital Yayın Yapan Radyo İstasyonları</p>
+        <p><strong>Sinema:</strong> Sinema Salonları</p>
+        <p><strong>Indoor:</strong> Otobüs & Uçak İçi, Havaalanı, Market, Kapalı Fuar & Etkinlik Alanı vb. kapalı yerlerdeki kullanımlar</p>
+        <p><strong>Outdoor:</strong> ATM, Konser, Stadyum, Açık Hava Gösterimi, Açık Fuar Alanı vb. açık alandaki kullanımları ifade eder.</p>
+        <p><strong>Metaverse:</strong> Sanal Evrenleri Kapsar</p>
+        <br><br>
+        <p><strong>KULLANIM SÜRESİ:</strong></p>
+        <p>Reklam filmleri için belirlenen ücret fatura tarihinden itibaren 1 yıl için geçerlidir. 1 yılın bitiminde reklamın yayınına devam edilmesi halinde yeni yayın yılındaki ücretiyle, yayınlananların işlerin kaşe hesapları %100 olarak yapılır.</p>
+        <br><br>
+        <p><strong>REKLAM DIŞI İŞLER:</strong></p>
+        <p>60 saniye (1 dakika)’yı geçen reklam filmleri 2 kaşe olarak değerlendirilir. Santral, IVR (Interactive Voice Response), Yapay Zeka / Akıllı Asistan, Tanıtım Filmi, Advertorial, Infomercial, Otobüs, Uçak, Metro, ATM, vb. mecralar için yapılacak seslendirme çalışmalarında işin mahiyetine, uzunluğuna ve kullanım alanına ve kullanım süresine göre fiyatlandırma yapılmaktadır.</p>
+        <br><br>
+        <p><strong>SUNDU & SUNAR:</strong></p>
+        <p>Program giriş-çıkışlarında kullanılan “Sundu-Sunar”, “Separatör”, “Jenerik” ve “Katkılarıyla” olarak adlandırılan spotlar her program/kanal özelinde 2 kaşe (%200) üzerinden hesaplanır. Reklamın yayınlanmasından sonra ayrıca separatör, jenerik, vs. olarak kullanılıyorsa ayrıca tam kaşe (%100) olarak fatura edilir. “Sundu-Sunar” spotlarına eklenecek “Devam Ediyor, Devam Edecek” spotlarının her biri için yarım kaşe (%50), toplam 1 kaşe (%100) daha ayrıca hesaplanır.</p>
     </div>
 
     <script>
@@ -222,9 +177,10 @@ elde etme amacına yönelik kullanımlar, versiyon olarak tanımlanır.</p>
         let versiyonlar = [];
         let versiyonSayisi = 0;
         let currentVersiyonIndex = 0;
+        let hasAllTvDijitalSm = false;
 
-        // Mecra seçimlerini yönet
-        document.querySelectorAll(".mecra-button").forEach(button => {
+        // Mecra seçimlerini yönet (Ana Film için)
+        document.querySelectorAll("#anaFilmMecraOptions .mecra-button").forEach(button => {
             button.addEventListener("click", () => {
                 if (!button.disabled) {
                     button.classList.toggle("selected");
@@ -240,17 +196,22 @@ elde etme amacına yönelik kullanımlar, versiyon olarak tanımlanır.</p>
             });
 
             if (anaFilmMecralari.length > 0) {
-                // Tüm mecralar seçilirse, toplam kaşe 7 olacak
                 if (anaFilmMecralari.length === 9) {
                     anaFilmMecralari = ["Tüm Mecralar"];
                 }
 
+                // TV, Dijital ve SM'nin hepsinin seçilip seçilmediğini kontrol et
+                hasAllTvDijitalSm = anaFilmMecralari.includes("tv") && 
+                                   anaFilmMecralari.includes("dijital") && 
+                                   anaFilmMecralari.includes("sm") || 
+                                   anaFilmMecralari.includes("Tüm Mecralar");
+
                 document.getElementById("versiyonSection").classList.remove("hidden");
                 document.getElementById("geriButton").classList.remove("hidden");
                 document.getElementById("resetButton").classList.remove("hidden");
-                document.getElementById("anaFilmOnaylaButton").disabled = true; // Butonu devre dışı bırak
+                document.getElementById("anaFilmOnaylaButton").disabled = true;
                 document.querySelectorAll("#anaFilmMecraOptions .mecra-button").forEach(button => {
-                    button.disabled = true; // Mecra seçimlerini kitler
+                    button.disabled = true;
                 });
                 updateSummary();
             } else {
@@ -264,12 +225,21 @@ elde etme amacına yönelik kullanımlar, versiyon olarak tanımlanır.</p>
 
             if (versiyonSayisi > 0 && versiyonSayisi <= 20) {
                 document.getElementById("versiyonMecraSection").classList.remove("hidden");
-                document.getElementById("devamEtButton").disabled = true; // Butonu devre dışı bırak
+                document.getElementById("devamEtButton").disabled = true;
+                document.getElementById("versiyonYokButton").classList.add("hidden");
                 currentVersiyonIndex = 0;
                 showNextVersiyon();
             } else {
                 alert("Lütfen 1 ile 20 arasında bir sayı girin.");
             }
+        }
+
+        // Versiyon eklemeden hesaplamayı bitir
+        function skipVersiyon() {
+            document.getElementById("versiyonSection").classList.add("hidden");
+            document.getElementById("kopyalaButton").classList.remove("hidden");
+            document.getElementById("summaryBox").scrollIntoView({ behavior: "smooth" });
+            updateSummary();
         }
 
         // Bir sonraki versiyon için mecra seçeneklerini göster
@@ -288,16 +258,32 @@ elde etme amacına yönelik kullanımlar, versiyon olarak tanımlanır.</p>
                     <div class="mecra-button" data-value="metaverse">Metaverse</div>
                 `;
 
-                // Versiyon mecra seçimlerini yönet
                 document.querySelectorAll("#versiyonMecraOptions .mecra-button").forEach(button => {
                     button.addEventListener("click", () => {
                         if (!button.disabled) {
+                            const value = button.getAttribute("data-value");
+
+                            // Eğer TV, Dijital ve SM'nin hepsi seçilmemişse
+                            if (!hasAllTvDijitalSm) {
+                                // Ana filmde seçilmeyen bir TV, Dijital veya SM seçilmeye çalışılırsa
+                                if (["tv", "dijital", "sm"].includes(value) && !anaFilmMecralari.includes(value) && !anaFilmMecralari.includes("Tüm Mecralar")) {
+                                    alert("Versiyonlarda ana filmde seçilmeyen TV, Dijital veya SM mecraları seçilemez. Bu mecraları seçmek için ana filmde seçim yapmalısınız.");
+                                    resetAll();
+                                    return;
+                                }
+                            }
+                            // Eğer hepsi seçilmemişse ve TV, Dijital, SM'den biri seçilmeye çalışılırsa
+                            else if (["tv", "dijital", "sm"].includes(value) && !hasAllTvDijitalSm) {
+                                alert("TV, Dijital ve SM Mecraları İlk yayına dahil olacağından, bu mecraları öncelikle Ana Film için seçmeniz gerekmektedir.");
+                                resetAll();
+                                return;
+                            }
+
                             button.classList.toggle("selected");
                         }
                     });
                 });
 
-                // "Versiyonu Ekle" butonunu güncelle
                 document.getElementById("versiyonEkleButton").innerText = `${currentVersiyonIndex + 1}. Versiyonu Ekle`;
             }
         }
@@ -310,12 +296,11 @@ elde etme amacına yönelik kullanımlar, versiyon olarak tanımlanır.</p>
             if (versiyonMecralari.length > 0) {
                 let versiyonKaşe = 0;
 
-                // Her bir mecra için kaşe hesapla
                 versiyonMecralari.forEach(mecra => {
                     if (mecra === "indoor" || mecra === "outdoor") {
-                        versiyonKaşe += 1; // Indoor ve Outdoor için 1 kaşe
+                        versiyonKaşe += 1;
                     } else {
-                        versiyonKaşe += 0.5; // Diğer mecralar için 0,5 kaşe
+                        versiyonKaşe += 0.5;
                     }
                 });
 
@@ -329,8 +314,8 @@ elde etme amacına yönelik kullanımlar, versiyon olarak tanımlanır.</p>
                 if (currentVersiyonIndex < versiyonSayisi) {
                     showNextVersiyon();
                 } else {
-                    document.getElementById("versiyonEkleButton").disabled = true; // Butonu devre dışı bırak
-                    document.getElementById("kopyalaButton").classList.remove("hidden"); // Kopyala butonunu göster
+                    document.getElementById("versiyonEkleButton").disabled = true;
+                    document.getElementById("kopyalaButton").classList.remove("hidden");
                     document.getElementById("summaryBox").scrollIntoView({ behavior: "smooth" });
                 }
             } else {
@@ -347,11 +332,12 @@ elde etme amacına yönelik kullanımlar, versiyon olarak tanımlanır.</p>
                 showNextVersiyon();
             } else if (anaFilmMecralari.length > 0) {
                 anaFilmMecralari = [];
+                hasAllTvDijitalSm = false;
                 document.getElementById("versiyonSection").classList.add("hidden");
                 document.getElementById("versiyonMecraSection").classList.add("hidden");
-                document.getElementById("anaFilmOnaylaButton").disabled = false; // Butonu aktif hale getir
+                document.getElementById("anaFilmOnaylaButton").disabled = false;
                 document.querySelectorAll("#anaFilmMecraOptions .mecra-button").forEach(button => {
-                    button.disabled = false; // Mecra seçimlerini aktif hale getir
+                    button.disabled = false;
                 });
                 updateSummary();
             } else {
@@ -365,22 +351,22 @@ elde etme amacına yönelik kullanımlar, versiyon olarak tanımlanır.</p>
             versiyonlar = [];
             versiyonSayisi = 0;
             currentVersiyonIndex = 0;
+            hasAllTvDijitalSm = false;
             document.getElementById("versiyonSection").classList.add("hidden");
             document.getElementById("versiyonMecraSection").classList.add("hidden");
             document.getElementById("geriButton").classList.add("hidden");
             document.getElementById("resetButton").classList.add("hidden");
             document.getElementById("kopyalaButton").classList.add("hidden");
-            document.getElementById("anaFilmOnaylaButton").disabled = false; // Butonu aktif hale getir
-            document.getElementById("devamEtButton").disabled = false; // Butonu aktif hale getir
-            document.getElementById("versiyonEkleButton").disabled = false; // Butonu aktif hale getir
+            document.getElementById("anaFilmOnaylaButton").disabled = false;
+            document.getElementById("devamEtButton").disabled = false;
+            document.getElementById("versiyonEkleButton").disabled = false;
+            document.getElementById("versiyonYokButton").classList.remove("hidden");
             document.getElementById("summaryText").innerHTML = "Henüz bir hesaplama yapılmadı.";
 
-            // Tüm seçili mecraları temizle
             document.querySelectorAll(".mecra-button.selected").forEach(button => {
                 button.classList.remove("selected");
             });
 
-            // Tüm mecraları aktif hale getir
             document.querySelectorAll(".mecra-button").forEach(button => {
                 button.disabled = false;
             });
@@ -422,14 +408,13 @@ elde etme amacına yönelik kullanımlar, versiyon olarak tanımlanır.</p>
         // Mecralara göre kaşe hesapla (Ana film için)
         function calculateMecraKaşe(mecralar) {
             if (mecralar.includes("Tüm Mecralar")) {
-                return 7; // Tüm mecralar seçilirse 7 kaşe
+                return 7;
             }
 
             let kaşe = 0;
             let radyoSinemaCount = 0;
 
-            // TV, Dijital veya Sosyal Medya seçilmiş mi?
-            let hasTvDijitalSm = mecralar.some(mecra => ["tv", "dijital", "sm"].includes(mecra));
+            let hasTvDijitalSmLocal = mecralar.some(mecra => ["tv", "dijital", "sm"].includes(mecra));
 
             mecralar.forEach(mecra => {
                 switch (mecra) {
@@ -441,14 +426,14 @@ elde etme amacına yönelik kullanımlar, versiyon olarak tanımlanır.</p>
                     case "karasal_radyo":
                     case "dijital_radyo":
                     case "sinema":
-                        if (hasTvDijitalSm) {
-                            kaşe += 0.5; // TV, Dijital veya SM seçilirse 0,5 kaşe
+                        if (hasTvDijitalSmLocal) {
+                            kaşe += 0.5;
                         } else {
                             radyoSinemaCount++;
                             if (radyoSinemaCount === 1) {
-                                kaşe += 1; // İlk seçilen Radyo veya Sinema 1 kaşe
+                                kaşe += 1;
                             } else {
-                                kaşe += 0.5; // Sonraki her bir Radyo veya Sinema 0,5 kaşe
+                                kaşe += 0.5;
                             }
                         }
                         break;
