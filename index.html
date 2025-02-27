@@ -318,7 +318,7 @@
                 document.getElementById("versiyonSection").classList.remove("hidden");
                 document.querySelector(".section").classList.add("hidden");
                 document.getElementById("geriButton").classList.add("hidden");
-                updateSummary(); // Özet hemen eklensin
+                updateSummary(); // Özet hemen eklenmeli
                 showAlert("Ana Film hesaplandı。");
             } else {
                 alert("Lütfen en az bir mecra seçin。");
@@ -332,7 +332,7 @@
                 document.getElementById("versiyonSection").classList.add("hidden");
                 document.getElementById("versiyonMecraSection").classList.remove("hidden");
                 currentVersiyonIndex = 0;
-                document.getElementById("versiyonEkleButton").disabled = false; // Versiyon ekleme butonu aktif
+                document.getElementById("versiyonEkleButton").disabled = false;
                 showNextVersiyon();
             } else {
                 alert("Lütfen 1 ile 20 arasında bir sayı girin。");
@@ -575,7 +575,7 @@
             anaFilmSureGlobal = "";
             document.getElementById("anaFilmAdi").value = "";
             document.getElementById("anaFilmSure").value = "";
-            document.getElementById("versiyonEkleButton").disabled = false; // Versiyon ekleme butonu aktif
+            document.getElementById("versiyonEkleButton").disabled = false;
             document.querySelectorAll("#anaFilmMecraOptions .mecra-button.selected").forEach(button => {
                 button.classList.remove("selected");
             });
@@ -622,7 +622,7 @@
             }).join(", ");
 
             const anaFilmBilgi = anaFilmAdiGlobal || anaFilmSureGlobal ? 
-                `${anaFilmAdiGlobal || "Ad Belirtilmedi"} / ${anaFilmSureGlobal ? anaFilmSureGlobal + " sn" : "Süre Belirtilmedi"}` : "Ad Belirtilmedi / Süre Belirtilmedi";
+                `[<i>${anaFilmAdiGlobal || "Ad Belirtilmedi"} / ${anaFilmSureGlobal ? anaFilmSureGlobal + " sn" : "Süre Belirtilmedi"}</i>]` : "";
 
             const versiyonlarFormatted = versiyonlar.map((versiyon, index) => {
                 const mecralarFormatted = versiyon.mecra.map(mecra => {
@@ -631,36 +631,32 @@
                     return isExtra ? `<span class="extra-mecra">${mecra} (${kase} kaşe)</span>` : `${mecra} (${kase} kaşe)`;
                 }).join(", ");
                 const versiyonBilgi = versiyon.adi || versiyon.sure ? 
-                    `${versiyon.adi || "Ad Belirtilmedi"} / ${versiyon.sure ? versiyon.sure + " sn" : "Süre Belirtilmedi"}` : "Ad Belirtilmedi / Süre Belirtilmedi";
-                return `<strong>- Versiyon ${index + 1}</strong> [${versiyonBilgi}]: ${mecralarFormatted} <strong>(Toplam: ${versiyon.kaşe} kaşe)</strong>`;
+                    `[<i>${versiyon.adi || "Ad Belirtilmedi"} / ${versiyon.sure ? versiyon.sure + " sn" : "Süre Belirtilmedi"}</i>]` : "";
+                return `<strong>- Versiyon ${index + 1}</strong> ${versiyonBilgi}: ${mecralarFormatted} <strong>(Toplam: ${versiyon.kaşe} kaşe)</strong>`;
             }).join("<br>");
 
             let summaryText = "";
-            if (anaFilmMecralari.length > 0) {
-                summaryText += `
-                    <div class="ana-film-summary">
-                        <strong>Ana Film</strong> [${anaFilmBilgi}]:<br>
-                        - <strong>Mecralar</strong>: ${anaFilmMecralariFormatted}<br>
-                        - <strong>Ana Film için Toplam Kaşe</strong>: ${anaFilmKaşe} kaşe<br>
-                    </div>
-                `;
-            }
+            summaryText += `
+                <div class="ana-film-summary">
+                    <strong>Ana Film</strong> ${anaFilmBilgi}:<br>
+                    - <strong>Mecralar</strong>: ${anaFilmMecralariFormatted || "Henüz mecra seçilmedi"}<br>
+                    - <strong>Ana Film için Toplam Kaşe</strong>: ${anaFilmKaşe || 0} kaşe <br><br>
+                </div>
+            `;
 
             if (!versiyonYokSecildi && versiyonlar.length > 0) {
                 summaryText += `
-                    <br>
                     <div class="versiyon-summary">
                         <strong>Versiyonlar:</strong><br>
                         ${versiyonlarFormatted}<br>
                         <br>
-                        <strong>Versiyonlar için Toplam Kaşe:</strong> ${versiyonKaşe} kaşe<br>
+                        <strong>Versiyonlar için Toplam Kaşe:</strong> ${versiyonKaşe} kaşe<br><br>
                     </div>
                 `;
             }
 
             if (anaFilmMecralari.length > 0 && versiyonlar.length > 0) {
                 summaryText += `
-                    <br>
                     <strong class="toplam-kase">Toplam Kaşe: ${toplamKaşe} kaşe。</strong>
                 `;
             }
