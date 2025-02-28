@@ -24,7 +24,7 @@
         font-size: 16px;
     }
     #anaFilmAdi, #versiyonAdi { 
-        max-width: 300px;
+        max-width: 350px; /* 50px daha uzun */
     }
     #anaFilmSure, #versiyonSure { 
         max-width: 80px;
@@ -58,17 +58,19 @@
     .mecra-container {
         display: flex;
         flex-wrap: wrap;
-        gap: 12px; /* Mobil için boşluk artırıldı */
+        gap: 10px; /* Mobil için boşluk biraz azaltıldı */
         margin-bottom: 20px;
     }
     .mecra-button {
-        padding: 10px 18px;
+        padding: 10px 16px;
         background-color: #f0f0f0;
         border: 1px solid #ccc;
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s;
         font-size: 16px;
+        flex: 1 1 auto; /* Mobilde eşit genişlik */
+        min-width: 100px; /* Mobilde minimum genişlik */
     }
     .mecra-button.selected {
         background-color: #4CAF50;
@@ -137,13 +139,13 @@
         position: fixed;
         bottom: 20px;
         right: 20px;
-        padding: 8px 16px;
+        padding: 10px 18px; /* Daha büyük */
         background-color: #e57373; /* Kırmızı ton */
         color: white;
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        font-size: 14px;
+        font-size: 16px; /* Daha büyük */
         z-index: 1001;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
@@ -152,38 +154,47 @@
         body {
             max-width: 100%; /* Mobilde tam ekran kullan */
             padding: 5px;
+            margin: 0; /* Kenar boşluklarını kaldır */
         }
         button {
             padding: 14px 28px;
             font-size: 18px;
+            width: 100%; /* Mobilde tam genişlik */
+            margin: 5px 0; /* Daha kompakt */
         }
         .mecra-button {
-            padding: 12px 20px;
-            font-size: 18px;
+            padding: 12px 18px;
+            font-size: 16px;
+            flex: 1 1 45%; /* Mobilde daha kompakt, iki sütun */
+            min-width: 0; /* Minimum genişlik kaldırılabilir */
         }
         input {
             padding: 12px;
             font-size: 18px;
+            width: 100%; /* Mobilde tam genişlik */
         }
         #anaFilmAdi, #versiyonAdi {
             max-width: 100%; /* Mobilde tam genişlik */
         }
         #anaFilmSure, #versiyonSure {
-            max-width: 100px; /* Daha geniş bir input */
+            max-width: 100%; /* Mobilde tam genişlik */
         }
         .versiyon-sayisi-container input {
-            width: 100px; /* Daha geniş bir input */
+            width: 100%; /* Mobilde tam genişlik */
         }
         label { font-size: 18px; }
-        .mecra-container { gap: 15px; }
+        .mecra-container { gap: 5px; /* Daha az boşluk mobilde */ }
         .genel-bilgiler h4 { font-size: 20px; }
         .genel-bilgiler p { font-size: 18px; }
-        #summaryBox { padding: 15px; }
+        #summaryBox { 
+            padding: 15px; 
+            width: 100%; /* Mobilde tam genişlik */
+        }
         #hardResetButton {
             bottom: 10px;
             right: 10px;
-            padding: 6px 12px;
-            font-size: 12px;
+            padding: 8px 14px; /* Mobilde biraz daha küçük */
+            font-size: 14px; /* Mobilde biraz daha küçük */
         }
     }
   </style>
@@ -297,7 +308,11 @@
         document.querySelectorAll("input").forEach(input => {
             input.addEventListener("keydown", (e) => {
                 if (e.key === "Tab") {
-                    e.preventDefault(); // Otomatik odaklanmayı engelle
+                    // Tab tuşuyla input’lar arasında geçiş yap
+                    const inputs = Array.from(document.querySelectorAll("input"));
+                    const currentIndex = inputs.indexOf(e.target);
+                    const nextIndex = (currentIndex + 1) % inputs.length;
+                    inputs[nextIndex].focus();
                 }
             });
         });
