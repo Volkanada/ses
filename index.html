@@ -49,6 +49,7 @@
         padding: 20px;
         background-color: #f9f9f9;
         margin-bottom: 20px;
+        display: block; /* Varsayılan olarak görünür */
     }
     .hidden { display: none; }
     .mecra-container {
@@ -315,10 +316,16 @@
                                               anaFilmMecralari.includes("metaverse") || 
                                               anaFilmMecralari.includes("Tüm Mecralar");
 
+                // Özetin göründüğünden emin olmak için açıkça sıfırlayıp güncelliyoruz
+                document.getElementById("summaryText").innerHTML = ""; 
+                updateSummary(); // Özeti güncelle
+                document.getElementById("summaryBox").classList.remove("hidden"); // Gizliyse aç
+                document.getElementById("summaryBox").style.display = "block"; // Görünürlüğü garanti et
+                document.getElementById("summaryBox").scrollIntoView({ behavior: "smooth" }); // Özet kısmına kaydır
+
                 document.getElementById("versiyonSection").classList.remove("hidden");
                 document.querySelector(".section").classList.add("hidden");
                 document.getElementById("geriButton").classList.add("hidden");
-                updateSummary(); // Özet hemen eklenmeli
                 showAlert("Ana Film hesaplandı。");
             } else {
                 alert("Lütfen en az bir mecra seçin。");
@@ -661,7 +668,10 @@
                 `;
             }
 
+            // Özetin göründüğünden emin olmak için
             document.getElementById("summaryText").innerHTML = summaryText;
+            document.getElementById("summaryBox").classList.remove("hidden");
+            document.getElementById("summaryBox").style.display = "block";
         }
 
         function calculateMecraKaşe(mecralar) {
