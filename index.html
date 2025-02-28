@@ -3,25 +3,27 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta http-equiv="Content-Style-Type" content="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> <!-- Mobil için zoom kontrolü -->
   <title>Reklam Kaşesi Hesaplama</title>
   <meta name="Generator" content="Cocoa HTML Writer">
   <meta name="CocoaVersion" content="2487.7">
   <style type="text/css">
     body {
         font-family: Helvetica, sans-serif;
-        padding: 10px;
+        padding: 5px;
         max-width: 1200px;
         margin: auto;
         overflow-x: hidden; /* Yatay kaydırmayı engelle */
     }
     h1, h3 { color: #333; }
     h5 { margin: 0; }
-    label { display: block; margin: 10px 0; font-size: 16px; }
+    label { display: block; margin: 5px 0; font-size: 16px; }
     input { 
         margin: 5px 0; 
-        padding: 10px; 
+        padding: 8px; 
         outline: none;
         font-size: 16px;
+        width: 100%; /* Mobilde tam genişlik */
     }
     #anaFilmAdi, #versiyonAdi { 
         max-width: 350px; /* 50px daha uzun */
@@ -30,14 +32,15 @@
         max-width: 80px;
     }
     button {
-        padding: 12px 24px;
-        margin: 10px 5px;
+        padding: 10px 20px;
+        margin: 5px 0;
         background-color: #4CAF50;
         color: white;
         border: none;
         cursor: pointer;
         font-size: 16px;
         border-radius: 5px;
+        width: 100%; /* Mobilde tam genişlik */
     }
     button:hover { background-color: #45a049; }
     button:disabled {
@@ -46,31 +49,32 @@
     }
     #resetButton, #geriButton, #versiyonYokButton { background-color: #2a76a7; }
     #resetButton:hover, #geriButton:hover, #versiyonYokButton:hover { background-color: #d32f2f; }
-    .section { margin-bottom: 20px; }
+    .section { margin-bottom: 10px; }
     #summaryBox {
         border: 2px solid #333;
-        padding: 20px;
+        padding: 15px;
         background-color: #f9f9f9;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         display: block; /* Varsayılan olarak görünür */
+        width: 100%; /* Mobilde tam genişlik */
     }
     .hidden { display: none; }
     .mecra-container {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px; /* Mobil için boşluk biraz azaltıldı */
-        margin-bottom: 20px;
+        gap: 5px; /* Daha az boşluk mobilde */
+        margin-bottom: 10px;
     }
     .mecra-button {
-        padding: 10px 16px;
+        padding: 8px 12px;
         background-color: #f0f0f0;
         border: 1px solid #ccc;
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s;
-        font-size: 16px;
-        flex: 1 1 auto; /* Mobilde eşit genişlik */
-        min-width: 100px; /* Mobilde minimum genişlik */
+        font-size: 14px;
+        flex: 1 1 45%; /* Mobilde iki sütun */
+        min-width: 0;
     }
     .mecra-button.selected {
         background-color: #4CAF50;
@@ -84,12 +88,12 @@
     .versiyon-sayisi-container {
         display: flex;
         align-items: center;
-        gap: 15px;
-        margin-bottom: 20px;
+        gap: 10px;
+        margin-bottom: 10px;
     }
     .versiyon-sayisi-container input {
         width: 80px;
-        padding: 10px;
+        padding: 8px;
         font-size: 16px;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -102,11 +106,12 @@
     .ana-film-summary { color: #1a73e8; }
     .versiyon-summary { color: #0288d1; }
     .genel-bilgiler {
-        margin-top: 20px;
-        padding: 20px;
+        margin-top: 10px;
+        padding: 15px;
         background-color: #f9f9f9;
         border: 1px solid #ccc;
         border-radius: 5px;
+        width: 100%; /* Mobilde tam genişlik */
     }
     .genel-bilgiler h4 { margin-top: 0; color: #333; font-size: 18px; }
     .genel-bilgiler p { margin: 5px 0; font-size: 16px; }
@@ -117,7 +122,7 @@
         transform: translate(-50%, 0);
         background-color: rgba(0, 255, 0, 0.2);
         border: 2px solid rgba(0, 100, 0, 0.5);
-        padding: 20px;
+        padding: 15px;
         box-shadow: 0 0 10px rgba(0, 100, 0, 0.3);
         z-index: 1000;
         text-align: center;
@@ -130,71 +135,48 @@
         padding: 10px;
         margin-bottom: 10px;
         background-color: #fff;
+        width: 100%; /* Mobilde tam genişlik */
     }
     #finalActions {
-        margin-top: 20px;
+        margin-top: 10px;
         text-align: center;
     }
     #hardResetButton {
         position: fixed;
         bottom: 20px;
         right: 20px;
-        padding: 10px 18px; /* Daha büyük */
+        padding: 10px 18px;
         background-color: #e57373; /* Kırmızı ton */
         color: white;
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        font-size: 16px; /* Daha büyük */
+        font-size: 16px;
         z-index: 1001;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
     #hardResetButton:hover { background-color: #d32f2f; }
     @media only screen and (max-width: 768px) {
         body {
-            max-width: 100%; /* Mobilde tam ekran kullan */
-            padding: 5px;
+            max-width: 100%; /* Mobilde tam ekran */
+            padding: 0;
             margin: 0; /* Kenar boşluklarını kaldır */
         }
-        button {
-            padding: 14px 28px;
-            font-size: 18px;
-            width: 100%; /* Mobilde tam genişlik */
-            margin: 5px 0; /* Daha kompakt */
+        button, input, .mecra-button {
+            font-size: 16px; /* Daha küçük metin mobilde */
         }
         .mecra-button {
-            padding: 12px 18px;
-            font-size: 16px;
-            flex: 1 1 45%; /* Mobilde daha kompakt, iki sütun */
-            min-width: 0; /* Minimum genişlik kaldırılabilir */
+            padding: 6px 10px; /* Daha kompakt */
+            flex: 1 1 48%; /* Daha sıkı iki sütun */
         }
-        input {
-            padding: 12px;
-            font-size: 18px;
-            width: 100%; /* Mobilde tam genişlik */
-        }
-        #anaFilmAdi, #versiyonAdi {
-            max-width: 100%; /* Mobilde tam genişlik */
-        }
-        #anaFilmSure, #versiyonSure {
-            max-width: 100%; /* Mobilde tam genişlik */
-        }
-        .versiyon-sayisi-container input {
-            width: 100%; /* Mobilde tam genişlik */
-        }
-        label { font-size: 18px; }
-        .mecra-container { gap: 5px; /* Daha az boşluk mobilde */ }
-        .genel-bilgiler h4 { font-size: 20px; }
-        .genel-bilgiler p { font-size: 18px; }
-        #summaryBox { 
-            padding: 15px; 
-            width: 100%; /* Mobilde tam genişlik */
-        }
+        label { font-size: 16px; }
+        .genel-bilgiler h4 { font-size: 18px; }
+        .genel-bilgiler p { font-size: 16px; }
         #hardResetButton {
             bottom: 10px;
             right: 10px;
-            padding: 8px 14px; /* Mobilde biraz daha küçük */
-            font-size: 14px; /* Mobilde biraz daha küçük */
+            padding: 8px 14px;
+            font-size: 14px;
         }
     }
   </style>
@@ -306,15 +288,7 @@
         let archiveCount = 0;
 
         document.querySelectorAll("input").forEach(input => {
-            input.addEventListener("keydown", (e) => {
-                if (e.key === "Tab") {
-                    // Tab tuşuyla input’lar arasında geçiş yap
-                    const inputs = Array.from(document.querySelectorAll("input"));
-                    const currentIndex = inputs.indexOf(e.target);
-                    const nextIndex = (currentIndex + 1) % inputs.length;
-                    inputs[nextIndex].focus();
-                }
-            });
+            // Tab tuşu doğal davranışını kullan
         });
 
         document.querySelectorAll("#anaFilmMecraOptions .mecra-button").forEach(button => {
@@ -322,7 +296,6 @@
                 if (!button.disabled) {
                     button.classList.toggle("selected");
                 }
-                e.preventDefault(); // Otomatik odaklanmayı engelle
             });
         });
 
@@ -420,7 +393,6 @@
                         if (!button.disabled) {
                             button.classList.toggle("selected");
                         }
-                        e.preventDefault(); // Otomatik odaklanmayı engelle
                     });
                 });
 
