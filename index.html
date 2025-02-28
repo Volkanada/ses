@@ -53,9 +53,11 @@
         border: 2px solid #333;
         padding: 15px;
         background-color: #f9f9f9;
+        margin: 0 auto; /* Sağ ve sol boşluk için */
         margin-bottom: 10px;
         display: block; /* Varsayılan olarak görünür */
         width: 100%;
+        max-width: 100%; /* Sağ tarafa da boşluk eklemek için */
     }
     .hidden { display: none; }
     .mecra-container {
@@ -115,20 +117,6 @@
     }
     .genel-bilgiler h4 { margin-top: 0; color: #333; font-size: 18px; }
     .genel-bilgiler p { margin: 5px 0; font-size: 16px; }
-    #alertBox {
-        position: fixed;
-        top: 10%;
-        left: 50%;
-        transform: translate(-50%, 0);
-        background-color: rgba(0, 255, 0, 0.2);
-        border: 2px solid rgba(0, 100, 0, 0.5);
-        padding: 15px;
-        box-shadow: 0 0 10px rgba(0, 100, 0, 0.3);
-        z-index: 1000;
-        text-align: center;
-        color: #333;
-        font-size: 16px;
-    }
     .extra-mecra { color: red; }
     .archive-entry {
         border: 1px solid #ccc;
@@ -261,8 +249,6 @@
         </div>
     </div>
 
-    <div id="alertBox" class="hidden">Tıklayınca kapanır.</div>
-
     <div class="genel-bilgiler">
         <h4>Genel Bilgiler</h4>
         <p><strong>NASIL KULLANILIR?</strong></p>
@@ -320,19 +306,6 @@
             });
         });
 
-        function showAlert(message) {
-            const alertBox = document.getElementById("alertBox");
-            alertBox.innerHTML = message;
-            alertBox.classList.remove("hidden");
-            setTimeout(() => {
-                hideAlert();
-            }, 1500);
-        }
-
-        function hideAlert() {
-            document.getElementById("alertBox").classList.add("hidden");
-        }
-
         function handleAnaFilmMecraSelection() {
             anaFilmMecralari = [];
             document.querySelectorAll("#anaFilmMecraOptions .mecra-button.selected").forEach(button => {
@@ -366,7 +339,6 @@
                 document.getElementById("versiyonSection").classList.remove("hidden");
                 document.querySelector(".section").classList.add("hidden");
                 document.getElementById("geriButton").classList.add("hidden");
-                showAlert("Ana Film hesaplandı.");
             } else {
                 alert("Lütfen en az bir mecra seçin.");
             }
@@ -455,10 +427,6 @@
                     }
                 });
 
-                if (extraMecras.length > 0) {
-                    showAlert(`İlk yayın için "${extraMecras.join(", ")}" mecrası/mecraları tam kaşeden hesaplanır.`);
-                }
-
                 if (currentVersiyonIndex < versiyonlar.length) {
                     versiyonlar[currentVersiyonIndex] = { mecra: versiyonMecralari, kaşe: versiyonKaşe, adi: versiyonAdi, sure: versiyonSure, extraMecras: extraMecras };
                 } else {
@@ -474,14 +442,12 @@
                 updateSummary();
 
                 if (currentVersiyonIndex < versiyonSayisi) {
-                    showAlert(`${currentVersiyonIndex}. Versiyon eklendi.`);
                     showNextVersiyon();
                 } else {
                     document.getElementById("versiyonEkleButton").disabled = true;
                     document.getElementById("kopyalaButton").classList.remove("hidden");
                     document.getElementById("versiyonMecraSection").classList.add("hidden");
                     document.getElementById("finalActions").classList.remove("hidden");
-                    showAlert("Tüm versiyonlar eklendi, hesaplama özeti yukarıdadır.");
                 }
             } else {
                 alert("Lütfen en az bir mecra seçin.");
