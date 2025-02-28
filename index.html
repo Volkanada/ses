@@ -12,29 +12,32 @@
         padding: 10px;
         max-width: 1200px;
         margin: auto;
+        overflow-x: hidden; /* Yatay kaydırmayı engelle */
     }
     h1, h3 { color: #333; }
     h5 { margin: 0; }
-    label { display: block; margin: 10px 0; }
+    label { display: block; margin: 10px 0; font-size: 16px; }
     input { 
         margin: 5px 0; 
-        padding: 8px; 
+        padding: 10px; 
         outline: none;
+        font-size: 16px;
     }
     #anaFilmAdi, #versiyonAdi { 
         max-width: 300px;
     }
     #anaFilmSure, #versiyonSure { 
-        max-width: 60px;
+        max-width: 80px;
     }
     button {
-        padding: 8px 16px;
+        padding: 12px 24px;
         margin: 10px 5px;
         background-color: #4CAF50;
         color: white;
         border: none;
         cursor: pointer;
-        font-size: 14px;
+        font-size: 16px;
+        border-radius: 5px;
     }
     button:hover { background-color: #45a049; }
     button:disabled {
@@ -55,17 +58,17 @@
     .mecra-container {
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 12px; /* Mobil için boşluk artırıldı */
         margin-bottom: 20px;
     }
     .mecra-button {
-        padding: 6px 12px;
+        padding: 10px 18px;
         background-color: #f0f0f0;
         border: 1px solid #ccc;
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s;
-        font-size: 14px;
+        font-size: 16px;
     }
     .mecra-button.selected {
         background-color: #4CAF50;
@@ -79,13 +82,13 @@
     .versiyon-sayisi-container {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 15px;
         margin-bottom: 20px;
     }
     .versiyon-sayisi-container input {
-        width: 60px;
-        padding: 6px;
-        font-size: 14px;
+        width: 80px;
+        padding: 10px;
+        font-size: 16px;
         border: 1px solid #ccc;
         border-radius: 5px;
     }
@@ -103,8 +106,8 @@
         border: 1px solid #ccc;
         border-radius: 5px;
     }
-    .genel-bilgiler h4 { margin-top: 0; color: #333; }
-    .genel-bilgiler p { margin: 5px 0; font-size: 14px; }
+    .genel-bilgiler h4 { margin-top: 0; color: #333; font-size: 18px; }
+    .genel-bilgiler p { margin: 5px 0; font-size: 16px; }
     #alertBox {
         position: fixed;
         top: 10%;
@@ -117,6 +120,7 @@
         z-index: 1000;
         text-align: center;
         color: #333;
+        font-size: 16px;
     }
     .extra-mecra { color: red; }
     .archive-entry {
@@ -129,32 +133,64 @@
         margin-top: 20px;
         text-align: center;
     }
+    #hardResetButton {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 8px 16px;
+        background-color: #e57373; /* Kırmızı ton */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        z-index: 1001;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    #hardResetButton:hover { background-color: #d32f2f; }
     @media only screen and (max-width: 768px) {
+        body {
+            max-width: 100%; /* Mobilde tam ekran kullan */
+            padding: 5px;
+        }
         button {
-            padding: 12px 24px;
+            padding: 14px 28px;
             font-size: 18px;
         }
         .mecra-button {
-            padding: 10px 18px;
-            font-size: 16px;
+            padding: 12px 20px;
+            font-size: 18px;
         }
         input {
-            padding: 10px;
-            font-size: 16px;
+            padding: 12px;
+            font-size: 18px;
         }
         #anaFilmAdi, #versiyonAdi {
-            max-width: 250px;
+            max-width: 100%; /* Mobilde tam genişlik */
         }
         #anaFilmSure, #versiyonSure {
-            max-width: 80px;
+            max-width: 100px; /* Daha geniş bir input */
         }
         .versiyon-sayisi-container input {
-            width: 80px;
+            width: 100px; /* Daha geniş bir input */
+        }
+        label { font-size: 18px; }
+        .mecra-container { gap: 15px; }
+        .genel-bilgiler h4 { font-size: 20px; }
+        .genel-bilgiler p { font-size: 18px; }
+        #summaryBox { padding: 15px; }
+        #hardResetButton {
+            bottom: 10px;
+            right: 10px;
+            padding: 6px 12px;
+            font-size: 12px;
         }
     }
   </style>
 </head>
 <body>
+    <h2>Reklam Kaşesi Hesaplama Modülüne Hoş Geldiniz. Lütfen Seçimlerinizi Yapınız.</h2>
+
     <div id="summaryBox">
         <h3>Hesaplama Özeti</h3>
         <div id="archiveEntries"></div>
@@ -166,8 +202,6 @@
     </div>
 
     <div class="selection-container" id="selectionContainer">
-        <p>Reklam Kaşesi Hesaplama Modülüne Hoş Geldiniz. Lütfen Seçimlerinizi Yapınız。</p>
-
         <div class="section">
             <label for="anaFilmAdi"><b>Ana Film Bilgileri</b></label>
             <input type="text" id="anaFilmAdi" placeholder="Ana Film Adı (Opsiyonel)">
@@ -206,45 +240,46 @@
         </div>
 
         <div id="finalActions" class="hidden">
-            <button id="archiveAndResetButton" onclick="archiveAndReset()">Hesaplamayı Özete Ekle ve Yeni Hesap Yap</button>
-            <button id="finishButton" onclick="finishCalculation()">Özete Ekle ve Hesaplamayı Bitir</button>
-            <button id="fullResetButton" onclick="resetAll()">Tümünü Sıfırla</button>
+            <button id="archiveAndResetButton" onclick="archiveAndReset()">Yeni Hesaplama Ekle</button>
+            <button id="finishButton" onclick="finishCalculation()">Hesaplamayı Bitir</button>
         </div>
     </div>
 
-    <div id="alertBox" class="hidden">Tıklayınca kapanır。</div>
+    <div id="alertBox" class="hidden">Tıklayınca kapanır.</div>
 
     <div class="genel-bilgiler">
         <h4>Genel Bilgiler</h4>
         <p><strong>NASIL KULLANILIR?</strong></p>
-        <p>Öncelikle İlk Yayına çıkacak ANA FİLM'iniz için MECRA seçimi yapınız, ardından ANA FİLM MECRALARINI ONAYLAYIN. Sonrasında VERSİYONlarınız varsa sayısını girin ve her biri için MECRALARI seçiniz ve sırayla ekleyiniz. Son Versiyonunuzun Mecralarını da girdiğinizde Hesaplama Özeti Kutusunda Detaylı Özet ve TOPLAM KAŞE hesabını görebilirsiniz. Eğer Birden fazla Ana Filminiz varsa, Ana Film hesabıyla çarpmalısınız。</p>
+        <p>Öncelikle İlk Yayına çıkacak ANA FİLM'iniz için MECRA seçimi yapınız, ardından ANA FİLM MECRALARINI ONAYLAYIN. Sonrasında VERSİYONlarınız varsa sayısını girin ve her biri için MECRALARI seçiniz ve sırayla ekleyiniz. Son Versiyonunuzun Mecralarını da girdiğinizde Hesaplama Özeti Kutusunda Detaylı Özet ve TOPLAM KAŞE hesabını görebilirsiniz. Eğer Birden fazla Ana Filminiz varsa, Ana Film hesabıyla çarpmalısınız.</p>
         <br><br>
         <p><strong>ANA FİLM NEDİR?</strong></p>
-        <p>Reklam kampanyasının ilk yayına çıkan/çıkacak filmidir. Uzun Film, Asıl Kopya, Ana Kopya da denilir. Radyo Spotu ise İlk Spot sayılır。 </p>
+        <p>Reklam kampanyasının ilk yayına çıkan/çıkacak filmidir. Uzun Film, Asıl Kopya, Ana Kopya da denilir. Radyo Spotu ise İlk Spot sayılır.</p>
         <br><br>
         <p><strong>VERSİYON NEDİR?</strong></p>
-        <p>Aynı yayın yılı içerisinde ürün ve marka sabit kalmak koşuluyla reklam filmine yeni planların eklenmesi, çıkarılması, KISASI kesilmesi, aynı ürünün değişik çeşitlerinin gösterilmesi, filme yeni seslendirme ve yeni yazı planlarıyla ek yapılması, ana filmin süresi kısaltılarak yayınlanması, sanatçının gitmesine gerek kalmadan yapılan her türlü değişiklik ve ek mecra (radyo, sinema, internet, otobüs, uçak, konser, Açıkhava gösterimi, havaalanı, fuar, market, atm, led ekran, mobile, ve sair) yoluyla ticari kazanç elde etme amacına yönelik kullanımlar, versiyon olarak tanımlanır。</p>
+        <p>Aynı yayın yılı içerisinde ürün ve marka sabit kalmak koşuluyla reklam filmine yeni planların eklenmesi, çıkarılması, KISASI kesilmesi, aynı ürünün değişik çeşitlerinin gösterilmesi, filme yeni seslendirme ve yeni yazı planlarıyla ek yapılması, ana filmin süresi kısaltılarak yayınlanması, sanatçının gitmesine gerek kalmadan yapılan her türlü değişiklik ve ek mecra (radyo, sinema, internet, otobüs, uçak, konser, Açıkhava gösterimi, havaalanı, fuar, market, atm, led ekran, mobile, ve sair) yoluyla ticari kazanç elde etme amacına yönelik kullanımlar, versiyon olarak tanımlanır.</p>
         <br><br>
         <p><strong>MECRALAR:</strong></p>
         <p><strong>TV:</strong> Karasal TV yayını yapan tüm televizyon kanalları</p>
         <p><strong>Dijital:</strong> YouTube, kendi web sitesindeki arşiv bölümü hariç tüm web site kullanımları, Haber-Bülten siteleri, PayTV, VoD, e-Ticaret siteleri, Mobil Uygulamalar vb. dahil mecralar</p>
-        <p><strong>Sosyal Medya:</strong> Facebook, Instagram, Twitter, TikTok vb。</p>
+        <p><strong>Sosyal Medya:</strong> Facebook, Instagram, Twitter, TikTok vb.</p>
         <p><strong>Karasal Radyo:</strong> Karasal Yayın Yapan Radyo İstasyonları</p>
         <p><strong>Dijital Radyo:</strong> Dijital Yayın Yapan Radyo İstasyonları</p>
         <p><strong>Sinema:</strong> Sinema Salonları</p>
         <p><strong>Indoor:</strong> Otobüs & Uçak İçi, Havaalanı, Market, Kapalı Fuar & Etkinlik Alanı vb. kapalı yerlerdeki kullanımlar</p>
-        <p><strong>Outdoor:</strong> ATM, Konser, Stadyum, Açık Hava Gösterimi, Açık Fuar Alanı vb. açık alandaki kullanımları ifade eder。</p>
+        <p><strong>Outdoor:</strong> ATM, Konser, Stadyum, Açık Hava Gösterimi, Açık Fuar Alanı vb. açık alandaki kullanımları ifade eder.</p>
         <p><strong>Metaverse:</strong> Sanal Evrenleri Kapsar</p>
         <br><br>
         <p><strong>KULLANIM SÜRESİ:</strong></p>
-        <p>Reklam filmleri için belirlenen ücret fatura tarihinden itibaren 1 yıl için geçerlidir. 1 yılın bitiminde reklamın yayınına devam edilmesi halinde yeni yayın yılındaki ücretiyle, yayınlananların işlerin kaşe hesapları %100 olarak yapılır。</p>
+        <p>Reklam filmleri için belirlenen ücret fatura tarihinden itibaren 1 yıl için geçerlidir. 1 yılın bitiminde reklamın yayınına devam edilmesi halinde yeni yayın yılındaki ücretiyle, yayınlananların işlerin kaşe hesapları %100 olarak yapılır.</p>
         <br><br>
         <p><strong>REKLAM DIŞI İŞLER:</strong></p>
-        <p>60 saniye (1 dakika)’yı geçen reklam filmleri 2 kaşe olarak değerlendirilir. Santral, IVR (Interactive Voice Response), Yapay Zeka / Akıllı Asistan, Tanıtım Filmi, Advertorial, Infomercial, Otobüs, Uçak, Metro, ATM, vb. mecralar için yapılacak seslendirme çalışmalarında işin mahiyetine, uzunluğuna ve kullanım alanına ve kullanım süresine göre fiyatlandırma yapılmaktadır。</p>
+        <p>60 saniye (1 dakika)’yı geçen reklam filmleri 2 kaşe olarak değerlendirilir. Santral, IVR (Interactive Voice Response), Yapay Zeka / Akıllı Asistan, Tanıtım Filmi, Advertorial, Infomercial, Otobüs, Uçak, Metro, ATM, vb. mecralar için yapılacak seslendirme çalışmalarında işin mahiyetine, uzunluğuna ve kullanım alanına ve kullanım süresine göre fiyatlandırma yapılmaktadır.</p>
         <br><br>
         <p><strong>SUNDU & SUNAR:</strong></p>
-        <p>Program giriş-çıkışlarında kullanılan “Sundu-Sunar”, “Separatör”, “Jenerik” ve “Katkılarıyla” olarak adlandırılan spotlar her program/kanal özelinde 2 kaşe (%200) üzerinden hesaplanır. Reklamın yayınlanmasından sonra ayrıca separatör, jenerik, vs. olarak kullanılıyorsa ayrıca tam kaşe (%100) olarak fatura edilir. “Sundu-Sunar” spotlarına eklenecek “Devam Ediyor, Devam Edecek” spotlarının her biri için yarım kaşe (%50), toplam 1 kaşe (%100) daha ayrıca hesaplanır。</p>
+        <p>Program giriş-çıkışlarında kullanılan “Sundu-Sunar”, “Separatör”, “Jenerik” ve “Katkılarıyla” olarak adlandırılan spotlar her program/kanal özelinde 2 kaşe (%200) üzerinden hesaplanır. Reklamın yayınlanmasından sonra ayrıca separatör, jenerik, vs. olarak kullanılıyorsa ayrıca tam kaşe (%100) olarak fatura edilir. “Sundu-Sunar” spotlarına eklenecek “Devam Ediyor, Devam Edecek” spotlarının her biri için yarım kaşe (%50), toplam 1 kaşe (%100) daha ayrıca hesaplanır.</p>
     </div>
+
+    <button id="hardResetButton" onclick="resetAll()">Tümünü Sıfırla</button>
 
     <script>
         let anaFilmMecralari = [];
@@ -262,20 +297,21 @@
         document.querySelectorAll("input").forEach(input => {
             input.addEventListener("keydown", (e) => {
                 if (e.key === "Tab") {
-                    e.preventDefault();
-                    const inputs = Array.from(document.querySelectorAll("input"));
-                    const currentIndex = inputs.indexOf(e.target);
-                    const nextIndex = (currentIndex + 1) % inputs.length;
-                    inputs[nextIndex].focus();
+                    e.preventDefault(); // Otomatik odaklanmayı engelle
                 }
+            });
+            input.addEventListener("focus", (e) => {
+                e.preventDefault(); // Otomatik odaklanmayı engelle
+                e.target.blur(); // Focustan çık
             });
         });
 
         document.querySelectorAll("#anaFilmMecraOptions .mecra-button").forEach(button => {
-            button.addEventListener("click", () => {
+            button.addEventListener("click", (e) => {
                 if (!button.disabled) {
                     button.classList.toggle("selected");
                 }
+                e.preventDefault(); // Otomatik odaklanmayı engelle
             });
         });
 
@@ -321,14 +357,13 @@
                 updateSummary(); // Özeti güncelle
                 document.getElementById("summaryBox").classList.remove("hidden"); // Gizliyse aç
                 document.getElementById("summaryBox").style.display = "block"; // Görünürlüğü garanti et
-                document.getElementById("summaryBox").scrollIntoView({ behavior: "smooth" }); // Özet kısmına kaydır
 
                 document.getElementById("versiyonSection").classList.remove("hidden");
                 document.querySelector(".section").classList.add("hidden");
                 document.getElementById("geriButton").classList.add("hidden");
-                showAlert("Ana Film hesaplandı。");
+                showAlert("Ana Film hesaplandı.");
             } else {
-                alert("Lütfen en az bir mecra seçin。");
+                alert("Lütfen en az bir mecra seçin.");
             }
         }
 
@@ -342,7 +377,7 @@
                 document.getElementById("versiyonEkleButton").disabled = false;
                 showNextVersiyon();
             } else {
-                alert("Lütfen 1 ile 20 arasında bir sayı girin。");
+                alert("Lütfen 1 ile 20 arasında bir sayı girin.");
             }
         }
 
@@ -351,7 +386,6 @@
             document.getElementById("versiyonSection").classList.add("hidden");
             document.getElementById("kopyalaButton").classList.remove("hidden");
             document.getElementById("finalActions").classList.remove("hidden");
-            document.getElementById("summaryBox").scrollIntoView({ behavior: "smooth" });
             updateSummary();
         }
 
@@ -371,10 +405,11 @@
                 `;
 
                 document.querySelectorAll("#versiyonMecraOptions .mecra-button").forEach(button => {
-                    button.addEventListener("click", () => {
+                    button.addEventListener("click", (e) => {
                         if (!button.disabled) {
                             button.classList.toggle("selected");
                         }
+                        e.preventDefault(); // Otomatik odaklanmayı engelle
                     });
                 });
 
@@ -417,7 +452,7 @@
                 });
 
                 if (extraMecras.length > 0) {
-                    showAlert(`İlk yayın için "${extraMecras.join(", ")}" mecrası/mecraları tam kaşeden hesaplanır。`);
+                    showAlert(`İlk yayın için "${extraMecras.join(", ")}" mecrası/mecraları tam kaşeden hesaplanır.`);
                 }
 
                 if (currentVersiyonIndex < versiyonlar.length) {
@@ -435,18 +470,17 @@
                 updateSummary();
 
                 if (currentVersiyonIndex < versiyonSayisi) {
-                    showAlert(`${currentVersiyonIndex}. Versiyon eklendi`);
+                    showAlert(`${currentVersiyonIndex}. Versiyon eklendi.`);
                     showNextVersiyon();
                 } else {
                     document.getElementById("versiyonEkleButton").disabled = true;
                     document.getElementById("kopyalaButton").classList.remove("hidden");
                     document.getElementById("versiyonMecraSection").classList.add("hidden");
                     document.getElementById("finalActions").classList.remove("hidden");
-                    document.getElementById("summaryBox").scrollIntoView({ behavior: "smooth" });
-                    showAlert("Tüm versiyonlar eklendi, hesaplama özeti yukarıdadır。");
+                    showAlert("Tüm versiyonlar eklendi, hesaplama özeti yukarıdadır.");
                 }
             } else {
-                alert("Lütfen en az bir mecra seçin。");
+                alert("Lütfen en az bir mecra seçin.");
             }
         }
 
@@ -494,49 +528,14 @@
                 updateSummary();
                 document.getElementById("finalActions").classList.add("hidden");
             } else {
-                alert("Geri alınacak bir işlem yok。");
+                alert("Geri alınacak bir işlem yok.");
             }
         }
 
         function resetAll() {
-            anaFilmMecralari = [];
-            versiyonlar = [];
-            versiyonSayisi = 0;
-            currentVersiyonIndex = 0;
-            hasAllTvDijitalSm = false;
-            hasAllIndoorOutdoorMetaverse = false;
-            versiyonYokSecildi = false;
-            addedMecras.clear();
-            anaFilmAdiGlobal = "";
-            anaFilmSureGlobal = "";
-            archiveCount = 0;
-            document.getElementById("versiyonSection").classList.add("hidden");
-            document.getElementById("versiyonMecraSection").classList.add("hidden");
-            document.getElementById("geriButton").classList.add("hidden");
-            document.getElementById("kopyalaButton").classList.add("hidden");
-            document.getElementById("anaFilmOnaylaButton").classList.remove("hidden");
-            document.getElementById("anaFilmMecraOptions").classList.remove("hidden");
-            document.getElementById("anaFilmAdi").classList.remove("hidden");
-            document.getElementById("anaFilmSure").classList.remove("hidden");
-            document.querySelector("label[for='anaFilmAdi']").classList.remove("hidden");
-            document.querySelector("label[for='anaFilmMecraOptions']").classList.remove("hidden");
-            document.querySelector(".section").classList.remove("hidden");
-            document.getElementById("selectionContainer").classList.remove("hidden");
-            document.getElementById("devamEtButton").disabled = false;
-            document.getElementById("versiyonEkleButton").disabled = false;
-            document.getElementById("versiyonYokButton").classList.remove("hidden");
-            document.getElementById("finalActions").classList.add("hidden");
-            document.getElementById("restartSection").classList.add("hidden");
-            document.getElementById("summaryText").innerHTML = "";
-            document.getElementById("archiveEntries").innerHTML = "";
-            document.getElementById("anaFilmAdi").value = "";
-            document.getElementById("anaFilmSure").value = "";
-            document.querySelectorAll("#anaFilmMecraOptions .mecra-button.selected").forEach(button => {
-                button.classList.remove("selected");
-            });
-            document.querySelectorAll("#anaFilmMecraOptions .mecra-button").forEach(button => {
-                button.disabled = false;
-            });
+            if (confirm("Tüm veriler tamamen sıfırlanacak ve sayfa yenilenecek. Emin misiniz?")) {
+                location.reload(); // Sayfayı tamamen yenile (F5 gibi)
+            }
         }
 
         function archiveAndReset() {
@@ -566,7 +565,6 @@
             document.getElementById("kopyalaButton").classList.remove("hidden");
             document.getElementById("restartSection").classList.remove("hidden");
             document.getElementById("summaryText").innerHTML = ""; // Renkli özet kalksın
-            document.getElementById("summaryBox").scrollIntoView({ behavior: "smooth" });
         }
 
         function resetForNewCalculation() {
@@ -664,7 +662,7 @@
 
             if (anaFilmMecralari.length > 0 && versiyonlar.length > 0) {
                 summaryText += `
-                    <strong class="toplam-kase">Toplam Kaşe: ${toplamKaşe} kaşe。</strong>
+                    <strong class="toplam-kase">Toplam Kaşe: ${toplamKaşe} kaşe.</strong>
                 `;
             }
 
