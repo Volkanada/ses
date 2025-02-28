@@ -72,8 +72,8 @@
         cursor: pointer;
         transition: background-color 0.3s;
         font-size: 14px;
-        flex: 1 1 45%; /* Yanyana sıkışık, iki sütun */
-        min-width: 0;
+        width: auto; /* Eski yanyana sıkışık görünüm */
+        min-width: 0; /* Minimum genişlik kaldırılarak doğal boyut */
     }
     .mecra-button.selected {
         background-color: #4CAF50;
@@ -169,7 +169,7 @@
         }
         .mecra-button {
             padding: 6px 10px; /* Daha kompakt */
-            flex: 1 1 45%; /* Yanyana sıkışık, iki sütun */
+            width: auto; /* Eski yanyana sıkışık görünüm */
             font-size: 14px;
         }
         input {
