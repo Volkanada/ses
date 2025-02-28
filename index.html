@@ -23,7 +23,7 @@
         padding: 8px; 
         outline: none;
         font-size: 16px;
-        width: 100%; /* Mobilde tam genişlik */
+        width: 100%; /* Masaüstünde tam genişlik, mobilde değişecek */
     }
     #anaFilmAdi, #versiyonAdi { 
         max-width: 350px; /* 50px daha uzun */
@@ -33,14 +33,13 @@
     }
     button {
         padding: 10px 20px;
-        margin: 5px 0;
+        margin: 5px 5px;
         background-color: #4CAF50;
         color: white;
         border: none;
         cursor: pointer;
         font-size: 16px;
         border-radius: 5px;
-        width: 100%; /* Mobilde tam genişlik */
     }
     button:hover { background-color: #45a049; }
     button:disabled {
@@ -56,7 +55,7 @@
         background-color: #f9f9f9;
         margin-bottom: 10px;
         display: block; /* Varsayılan olarak görünür */
-        width: 100%; /* Mobilde tam genişlik */
+        width: 100%;
     }
     .hidden { display: none; }
     .mecra-container {
@@ -73,7 +72,7 @@
         cursor: pointer;
         transition: background-color 0.3s;
         font-size: 14px;
-        flex: 1 1 45%; /* Mobilde iki sütun */
+        flex: 1 1 45%; /* Yanyana sıkışık, iki sütun */
         min-width: 0;
     }
     .mecra-button.selected {
@@ -111,7 +110,8 @@
         background-color: #f9f9f9;
         border: 1px solid #ccc;
         border-radius: 5px;
-        width: 100%; /* Mobilde tam genişlik */
+        width: 100%;
+        max-width: 100%; /* Mobilde tam genişlik */
     }
     .genel-bilgiler h4 { margin-top: 0; color: #333; font-size: 18px; }
     .genel-bilgiler p { margin: 5px 0; font-size: 16px; }
@@ -135,7 +135,7 @@
         padding: 10px;
         margin-bottom: 10px;
         background-color: #fff;
-        width: 100%; /* Mobilde tam genişlik */
+        width: 100%;
     }
     #finalActions {
         margin-top: 10px;
@@ -159,17 +159,40 @@
     @media only screen and (max-width: 768px) {
         body {
             max-width: 100%; /* Mobilde tam ekran */
-            padding: 0;
-            margin: 0; /* Kenar boşluklarını kaldır */
+            padding: 10px; /* Yanlara boşluk ekle */
+            margin: 0;
         }
-        button, input, .mecra-button {
-            font-size: 16px; /* Daha küçük metin mobilde */
+        button {
+            padding: 8px 16px; /* Daha küçük ve sıkışık */
+            margin: 5px;
+            width: auto; /* Tam ekran değil, yanyana sıkışık */
         }
         .mecra-button {
             padding: 6px 10px; /* Daha kompakt */
-            flex: 1 1 48%; /* Daha sıkı iki sütun */
+            flex: 1 1 45%; /* Yanyana sıkışık, iki sütun */
+            font-size: 14px;
+        }
+        input {
+            padding: 8px;
+            width: auto; /* Tam ekran değil, yanyana sıkışık */
+            max-width: 100%; /* Mobilde tam genişlik sınırı */
+        }
+        #anaFilmAdi, #versiyonAdi {
+            max-width: 100%; /* Mobilde tam genişlik */
+        }
+        #anaFilmSure, #versiyonSure {
+            max-width: 80px; /* Mobilde sınırlı genişlik */
+        }
+        .versiyon-sayisi-container input {
+            width: 80px;
         }
         label { font-size: 16px; }
+        .mecra-container { gap: 5px; }
+        #summaryBox, .genel-bilgiler {
+            max-width: 100%; /* Mobilde tam genişlik */
+            margin: 0 auto; /* Yanlara boşluk için */
+            padding: 10px; /* Daha az padding */
+        }
         .genel-bilgiler h4 { font-size: 18px; }
         .genel-bilgiler p { font-size: 16px; }
         #hardResetButton {
@@ -287,9 +310,7 @@
         let addedMecras = new Set();
         let archiveCount = 0;
 
-        document.querySelectorAll("input").forEach(input => {
-            // Tab tuşu doğal davranışını kullan
-        });
+        // Tab tuşu için doğal davranış zaten tarayıcıda var, manuel müdahale gerekmez
 
         document.querySelectorAll("#anaFilmMecraOptions .mecra-button").forEach(button => {
             button.addEventListener("click", (e) => {
