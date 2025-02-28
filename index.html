@@ -29,8 +29,6 @@
     #anaFilmSure, #versiyonSure { 
         max-width: 80px;
     }
-    #versiyonBaslik { font-size: 16px; }
-    
     button {
         padding: 12px 24px;
         margin: 10px 5px;
@@ -301,10 +299,6 @@
                 if (e.key === "Tab") {
                     e.preventDefault(); // Otomatik odaklanmayı engelle
                 }
-            });
-            input.addEventListener("focus", (e) => {
-                e.preventDefault(); // Otomatik odaklanmayı engelle
-                e.target.blur(); // Focustan çık
             });
         });
 
